@@ -7,16 +7,18 @@ using UnityEngine;
 /// </summary>
 public class MapBooder : MonoBehaviour
 {
-	[SerializeField] float width;	//マップの幅
-	[SerializeField] float height;  //マップの高さ
+	[SerializeField] float width;	//外壁の幅
+	[SerializeField] float height;  //外壁の高さ
 	[SerializeField] float posY;    //始める高さ
- 
+	
+	//外壁の側面の設定
 	[Space]
 	[SerializeField] Transform booder_bottom;
 	[SerializeField] Transform booder_left;
 	[SerializeField] Transform booder_right;
 	[SerializeField] Transform booder_top;
 
+	//外壁の角の設定
 	[Space]
 	[SerializeField] Transform corner_bottomLeft;
 	[SerializeField] Transform corner_bottomRight;
@@ -25,11 +27,12 @@ public class MapBooder : MonoBehaviour
 
 
 	/// <summary>
-	/// 幅を更新する
+	/// 外壁を更新する
 	/// </summary>
 	/// <param name="mapSizeV3">サイズ</param>
 	public void ExtendBooder(Vector3Int mapSizeV3)
 	{
+		//外壁のサイズを更新
 		Vector2Int mapSize = new Vector2Int(mapSizeV3.x, mapSizeV3.z);
 		float half = width * 0.5f;
 

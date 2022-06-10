@@ -22,6 +22,7 @@ public class SubMap : MonoBehaviour
 
     void Start()
     {
+		//俯瞰マップの作成
 		mapSize = stageData.mapData.GetComponent<MapData>().mapSize;
 
 		mapPivot.localPosition = Vector3.Scale(mapSize, new Vector3(0.5f, 0.0f, 0.5f)) * -1;

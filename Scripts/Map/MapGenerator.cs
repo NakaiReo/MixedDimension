@@ -11,9 +11,9 @@ public class SecondDimentionData
 {
 	public SideViewCameraSetting.Direction direction; //現在のカメラの方向
 	public bool isZ; //z方向を見ているか
-	public int sx; //xの大きさ
-	public int sy; //yの大きさ
-	public int sz; //zの大きさ
+	public int sx;   //xの大きさ
+	public int sy;   //yの大きさ
+	public int sz;   //zの大きさ
 	public int keyX; //向いているX方向がプラス方向か
 	public int keyZ; //向いているZ方向がプラス方向か
 	public bool flipXZ;

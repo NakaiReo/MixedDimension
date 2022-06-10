@@ -9,13 +9,13 @@ using UnityEngine.InputSystem.Users;
 
 public class VirtualMouse : MonoBehaviour
 {
-	[SerializeField] private PlayerInput playerInput;
-	[SerializeField] private RectTransform cursorTransform;
-	[SerializeField] private Canvas canvas;
-	[SerializeField] private RectTransform canvasRectTransform;
-	[SerializeField] private float cursorSpeed = 1000f;
-	[SerializeField] private float scroolSpeed = 20.0f;
-	[SerializeField] private float padding = 35f;
+	[SerializeField] private PlayerInput playerInput;       //PlayerInputのコンポーネント
+	[SerializeField] private RectTransform cursorTransform; //カーソルの位置 
+	[SerializeField] private Canvas canvas;                 //カーソル用のキャンバス
+	[SerializeField] private RectTransform canvasRectTransform; //キャンバスの位置
+	[SerializeField] private float cursorSpeed = 1000f; //カーソルの移動速度
+	[SerializeField] private float scroolSpeed = 20.0f; //スクロール速度
+	[SerializeField] private float padding = 35f;       //画面外からのデッドゾーン
 
 	private bool previousMouseState;
 	private Mouse virtualMouse;
@@ -29,6 +29,9 @@ public class VirtualMouse : MonoBehaviour
 	public bool isActive { get; private set; }
 	[SerializeField] string check;
 
+	/// <summary>
+    /// 仮想マウスを有効化
+    /// </summary>
 	public void EnableVirtualMouse()
 	{
 		isActive = true;
@@ -36,6 +39,9 @@ public class VirtualMouse : MonoBehaviour
 		OnControlsChanged();
 	}
 
+	/// <summary>
+    /// 仮想マウスを無効化
+    /// </summary>
 	public void DisableVirtualMouse()
 	{
 		isActive = false;
@@ -47,64 +53,86 @@ public class VirtualMouse : MonoBehaviour
 		isActive = true;
 	}
 
+	/// <summary>
+    /// コンポーネントが有効時の処理
+    /// </summary>
 	private void OnEnable()
 	{
 		mainCamera = Camera.main;
 		currentMouse = Mouse.current;
 
+		//仮想マウスのクラスが作られてなければ新しく作る
 		if(virtualMouse == null)
 		{
 			virtualMouse = (Mouse)InputSystem.AddDevice("VirtualMouse");
 		}
+		//存在はするが、追加されてない場合追加する
 		else if (!virtualMouse.added)
 		{
 			InputSystem.AddDevice(virtualMouse);
 		}
 
+		//バーチャルマウスを操作方法の一環として登録する
 		InputUser.PerformPairingWithDevice(virtualMouse, playerInput.user);
 
+		//カーソルを仮想マウスの位置に
 		if(cursorTransform != null)
 		{
 			Vector2 postion = cursorTransform.anchoredPosition;
 			InputState.Change(virtualMouse.position, postion);
 		}
 
+		//コールバックを登録
 		InputSystem.onAfterUpdate += UpdateMotion;
 		//playerInput.onControlsChanged += OnControlsChanged;
 	}
 
+	/// <summary>
+    /// コンポーネントが無効かされた時
+    /// </summary>
 	private void OnDisable()
 	{
+		//仮想マウスをPlayerInputから削除
 		if (virtualMouse != null && virtualMouse.added)
 		{
 			playerInput.user.UnpairDevice(virtualMouse);
 			InputSystem.RemoveDevice(virtualMouse);
 		}
 
+		//コールバックを削除
 		InputSystem.onAfterUpdate -= UpdateMotion;
 		//playerInput.onControlsChanged -= OnControlsChanged;
 	}
 
+	/// <summary>
+    /// 動きがあったときに呼ばれるコールバック
+    /// </summary>
 	private void UpdateMotion()
 	{
+		//バーチャルマウスが無効化され、ゲームパッドも存在しないとき、実行しない
 		if (isActive == false) return;
 		if (virtualMouse == null || Gamepad.current == null) return;
 
+		//左スティックの分だけカーソルを移動させる
 		Vector2 deltaValue = Gamepad.current.leftStick.ReadValue();
 		deltaValue *= cursorSpeed * Time.unscaledDeltaTime;
 
 		Vector2 currentPostion = virtualMouse.position.ReadValue();
 		Vector2 newPostion = currentPostion + deltaValue;
 
+		//右スティックでマウススクロールを扱う
 		float scroolDelta = Gamepad.current.rightStick.ReadValue().y * scroolSpeed * -1;
 
+		//デッドゾーンを超えないように調整
 		newPostion.x = Mathf.Clamp(newPostion.x, padding, Screen.width  - padding);
 		newPostion.y = Mathf.Clamp(newPostion.y, padding, Screen.height - padding);
 
+		//新しい値を代入
 		InputState.Change(virtualMouse.position, newPostion);
 		InputState.Change(virtualMouse.delta, deltaValue);
 		InputState.Change(virtualMouse.scroll, scroolDelta);
 
+		//決定キーが押された時の処理
 		bool aButtonIsPressed = Gamepad.current.aButton.isPressed;
 		if(previousMouseState != aButtonIsPressed)
 		{
@@ -114,9 +142,14 @@ public class VirtualMouse : MonoBehaviour
 			previousMouseState = aButtonIsPressed;
 		}
 
+		//カーソル位置更新
 		AnchorCursor(newPostion);
 	}
 
+	/// <summary>
+    /// カーソルの位置を更新
+    /// </summary>
+    /// <param name="postion">位置</param>
 	private void AnchorCursor(Vector2 postion)
 	{
 		Vector2 anchoredPostion;
@@ -124,6 +157,9 @@ public class VirtualMouse : MonoBehaviour
 		cursorTransform.anchoredPosition = anchoredPostion;
 	}
 
+	/// <summary>
+    /// 入力方法が変わったときに呼ばれる
+    /// </summary>
 	private void OnControlsChanged()
 	{
 		cursorSpeed = 500.0f * PlayerPrefs.GetFloat("VMS");
@@ -142,16 +178,23 @@ public class VirtualMouse : MonoBehaviour
 	{
 		check = previousControlScheme;
 
+		//現在の操作方法と新しい操作方法が違う場合デバイスを更新する
 		if(previousControlScheme != playerInput.currentControlScheme && isActive)
 		{
 			OnControlsChanged();
 		}
+
+		//現在の操作方法を新しい操作方法に
 		previousControlScheme = playerInput.currentControlScheme;
 
+		//現在の操作方法がマウスの場合カーソルを表示
 		if (previousControlScheme == "") return;
 		Cursor.visible = previousControlScheme == mouseScheme;
 	}
 
+	/// <summary>
+    /// 仮想カーソルを隠す
+    /// </summary>
 	private void HideCursor()
 	{
 		cursorTransform.gameObject.SetActive(false);
@@ -160,6 +203,9 @@ public class VirtualMouse : MonoBehaviour
 		previousControlScheme = mouseScheme;
 	}
 
+	/// <summary>
+    /// 仮想カーソルを表示
+    /// </summary>
 	private void ViewCursor()
 	{
 		cursorTransform.gameObject.SetActive(true);

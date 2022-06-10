@@ -6,7 +6,7 @@ using System.IO;
 
 public class ClearDataObject
 {
-	public bool[] isClear;
+	public bool[] isClear; //クリアしたステージのデータ
 }
 
 /// <summary>

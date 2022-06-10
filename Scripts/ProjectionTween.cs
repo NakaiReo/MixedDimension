@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class ProjectionTween : MonoBehaviour
 {
+	/// <summary>
+    /// Matrixの補完
+    /// </summary>
 	public static Matrix4x4 MatrixLerp(Matrix4x4 src, Matrix4x4 dest, float time)
 	{
 		Matrix4x4 ret = new Matrix4x4();
@@ -13,6 +16,9 @@ public class ProjectionTween : MonoBehaviour
 		return ret;
 	}
 
+	/// <summary>
+    /// Matrixを補完しながら動かす処理
+    /// </summary>
 	private IEnumerator LerpFromTo(Matrix4x4 src, Matrix4x4 dest, float duration)
 	{
 		float startTime = Time.time;
@@ -25,6 +31,9 @@ public class ProjectionTween : MonoBehaviour
 		Camera.main.projectionMatrix = dest;
 	}
 
+	/// <summary>
+	///  Matrixを補完しながら動かす
+	/// </summary>
 	public Coroutine BlendToMatrix(Matrix4x4 targetMatrix, float duration)
 	{
 		StopAllCoroutines();

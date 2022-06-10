@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 	Rigidbody rb;
 	Animator aniamtor;
 	CapsuleCollider playerCollider;
-	CameraController cameraController;
+	CameraController cameraController; //カメラのコントローラー
 
 	Vector3 toMovementVector; //現在進んでいる方向
 
@@ -131,6 +131,7 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
     {
+		//コンポーネント取得
 		rb = GetComponent<Rigidbody>();
 		playerCollider = GetComponent<CapsuleCollider>();
 		aniamtor = GetComponent<Animator>();
@@ -147,22 +148,28 @@ public class PlayerController : MonoBehaviour
 		Jump();
     }
 
-	GameObject backCube;
-	GameObject currentCube;
-	Vector3 backPosition = new Vector3(-99, -99, -99);
-	Vector3 currentPostion = new Vector3(-99, -99, -99);
+	GameObject backCube;    //前の地点のブロック
+	GameObject currentCube; //現在の地点のブロック
+	Vector3 backPosition = new Vector3(-99, -99, -99);   //前の座標
+	Vector3 currentPostion = new Vector3(-99, -99, -99); //現在の座標
 
 	bool startPlace;
 	bool startTeleport;
 	float placeKeyTime;
-	float teleportKeyTime;
+	float teleportKeyTime; //テレポートのチャージ
 
+	/// <summary>
+    /// 前の地点に戻る
+    /// </summary>
 	void CheckPoint()
 	{
+		//現在の真下のブロックを取得
 		GameObject groundObject = GetGroundObject();
 
+		//真下にブロックがあり、カメラが2次元状態でないとき
 		if (groundObject != null && cameraController.currentCameraType != CameraController.CameraType.SecondDimention)
 		{
+			//前の地点が登録されていないとき、現在のブロックを登録
 			if (backCube == null)
 			{
 				currentCube = groundObject;
@@ -171,6 +178,7 @@ public class PlayerController : MonoBehaviour
 				backPosition = transform.position;
 			}
 
+			//足場が登録されている足場と変わったら更新する
 			if (currentCube != groundObject)
 			{
 				backCube = currentCube;
@@ -180,33 +188,44 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-
+		//テレポートボタンが押されたら
 		if (input.Player.TeleportCheckPoint.triggered)
 		{
+			//前の地点が登録されているか
 			if (backPosition != new Vector3(-99,-99,-99))
 			{
+				//カメラが2次元状態ではないか
 				if (cameraController.currentCameraType != CameraController.CameraType.SecondDimention)
 				{
+					//テレポート開始
 					startTeleport = true;
 				}
 				else
 				{
+					//エラーメッセージの表示
 					InfoText.ins.SetText("2次元では使用できません!");
 				}
 			}
+
+			//エラーメッセージの表示
 			else { InfoText.ins.SetText("ポータルが設置されていません!"); }
 		}
 
+		//長押ししている間、チャージをためる
 		teleportKeyTime = input.Player.TeleportCheckPoint.ReadValue<float>() > 0 ? teleportKeyTime + Time.deltaTime : 0;
 
+		//テレポートを開始しており、スタート地点ではないとき
 		if (startTeleport && !startPlace)
 		{
+			//チャージが0ならテレポートを終了する
 			if (teleportKeyTime <= 0) startTeleport = false;
 
+			//UIの表示
 			gui.portalPanel.SetActive(true);
 			gui.portalText.text = "前の足場へ移動中...";
 			gui.portalSlider.value = teleportKeyTime / checkPointTime;
 
+			//チャージがたまったら前の地点へワープ
 			if (teleportKeyTime >= checkPointTime)
 			{
 				GameObject ins = Instantiate(teleportParticle);
@@ -223,6 +242,7 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
+		//ワープが終わったらUI非表示に
 		if(!startTeleport && !startPlace)
 		{
 			gui.portalPanel.SetActive(false);

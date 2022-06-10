@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public static class Extend
 {
+	/// <summary>
+    ///	範囲を扱う構造体
+    /// </summary>
 	[System.Serializable]
 	public struct RangeFloat
 	{
@@ -22,6 +25,11 @@ public static class Extend
 		public float Range { get { return max - min; } }
 	}
 
+	/// <summary>
+    /// 角度を0～360に直す
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
 	public static float AngleNormalization(float value)
 	{
 		while(value < 0 || value >= 360)
@@ -33,6 +41,9 @@ public static class Extend
 		return value;
 	}
 
+	/// <summary>
+    /// 軸
+    /// </summary>
 	public enum Axis
 	{
 		x,
@@ -44,6 +55,9 @@ public static class Extend
 		xyz
 	}
 
+	/// <summary>
+    /// 軸のベクトル
+    /// </summary>
 	static Vector3[] AxisVector = new Vector3[]
 	{
 		new Vector3(1,0,0),
@@ -65,16 +79,34 @@ public static class Extend
 		return tf.position + Vector3.Scale(tf.localScale, AxisVector[(int)axis]) / 2.0f;
 	}
 
+	/// <summary>
+    /// 特定の軸だけの値を取る
+    /// </summary>
+    /// <param name="tf">元となる値</param>
+    /// <param name="axis">軸</param>
+    /// <returns>絞り込んだ値</returns>
 	public static Vector3 ScaleAxis(this Transform tf, Axis axis)
 	{
 		return Vector3.Scale(tf.lossyScale, AxisVector[(int)axis]);
 	}
 
+	/// <summary>
+	/// 特定の軸だけの値を取る
+	/// </summary>
+	/// <param name="vector">元となる値</param>
+	/// <param name="axis">軸</param>
+	/// <returns>絞り込んだ値</returns>
 	public static Vector3 ScaleAxis(this Vector3 vector, Axis axis)
 	{
 		return Vector3.Scale(vector, AxisVector[(int)axis]);
 	}
 
+	/// <summary>
+	/// 特定の軸だけの値を取る
+	/// </summary>
+	/// <param name="vector">元となる値</param>
+	/// <param name="axis">軸</param>
+	/// <returns>絞り込んだ値</returns>
 	public static Vector3 ScaleAxis(this Vector3Int vector, Axis axis)
 	{
 		return Vector3.Scale((Vector3)vector, AxisVector[(int)axis]);
@@ -83,9 +115,9 @@ public static class Extend
 	/// <summary>
 	/// RigidBodyのVelocityに制限をかける
 	/// </summary>
-	/// <param name="rb"></param>
-	/// <param name="maxSpeed"></param>
-	/// <returns></returns>
+	/// <param name="rb">Rigidbody2D</param>
+	/// <param name="maxSpeed">最大速度</param>
+	/// <returns>補正された速度</returns>
 	public static Vector3 VelocityClamp(this Rigidbody rb, float maxSpeed)
 	{
 		Vector3 velocity = rb.velocity;
@@ -121,9 +153,9 @@ public static class Extend
 	/// <summary>
 	/// minからmaxまでループするように値を変換する
 	/// </summary>
-	/// <param name="value"></param>
-	/// <param name="min"></param>
-	/// <param name="max"></param>
+	/// <param name="value">値</param>
+	/// <param name="min">最小値</param>
+	/// <param name="max">最大値</param>
 	/// <returns></returns>
 	public static float ClampNormalization(float value,float min,float max)
 	{
@@ -249,6 +281,11 @@ public static class Extend
 		return index;
 	}
 
+	/// <summary>
+    /// ImageのAlphaだけを変える
+    /// </summary>
+    /// <param name="image">イメージ</param>
+    /// <param name="alpth">設定するアルファ値</param>
 	public static void SetAlpth(this Image image, float alpth)
 	{
 		Color color = image.color;

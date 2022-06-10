@@ -12,10 +12,10 @@ using System.IO;
 [Serializable]
 public class SettingData
 {
-	public Screen screen;
-	public System system;
-	public GamePlay gamePlay;
-	public Sound sound;
+	public Screen screen; //Screen設定のデータ
+	public System system; //System設定のデータ
+	public GamePlay gamePlay; //GamePlay設定のデータ
+	public Sound sound;       //Sound設定のデータ
 
 	[Serializable]
 	public class Screen
@@ -63,6 +63,9 @@ public class SettingData
 		public float se; //SEの音量
 	}
 
+	/// <summary>
+    /// コンストラクタ
+    /// </summary>
 	public SettingData()
 	{
 		screen = new Screen();
@@ -78,12 +81,12 @@ public class SettingData
 [Serializable]
 public class SettingInspector
 {
-	public ScreenInspector screen;
-	public SystemInspector system;
-	public GamePlayInspector gamePlay;
-	public SoundInspector sound;
+	public ScreenInspector screen; //Screen設定のコンテンツ
+	public SystemInspector system; //System設定のコンテンツ
+	public GamePlayInspector gamePlay; //GamePlay設定のコンテンツ
+	public SoundInspector sound;       //Sound設定のコンテンツ
 
-	GameDirector gameDirector;
+	GameDirector gameDirector; //GameDirector
 
 	[Serializable]
 	public class ScreenInspector
@@ -215,8 +218,8 @@ public class SettingMenu : MonoBehaviour
 		data.system.isAutoDash = content.system.autoDash.isOn;
 		data.system.isUseOutline = content.system.useOutline.isOn;
 
+		//値を取得できなければ初期化
 		if (PlayerPrefs.HasKey("VMS")) PlayerPrefs.SetFloat("VMS", 1.0f);
-
 		if (!float.TryParse(content.gamePlay.masterSensitivity.text,   out data.gamePlay.masterSensitivity))
 		{
 			data.gamePlay.masterSensitivity = 10.0f;
@@ -238,6 +241,7 @@ public class SettingMenu : MonoBehaviour
 			data.gamePlay.playerSensitivity = 1.0f;
 		}
 
+		//音量を定義
 		data.sound.master = content.sound.master.value;
 		data.sound.bgm = content.sound.bgm.value;
 		data.sound.se = content.sound.se.value;

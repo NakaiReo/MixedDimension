@@ -31,8 +31,10 @@ public class GameSetting : MonoBehaviour
 
 	private void Update()
 	{
+		//フェード中ではないかどうか
 		if (Fade.ins.isFade == true) return;
 
+		//メニューの切り替え
 		if (input.UI.Setting.triggered)
 		{
 			if (!SettingMenu.ins.isOpen)
