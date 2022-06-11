@@ -47,7 +47,7 @@
 ### [プレイ動画 - Youtube](https://www.youtube.com/watch?v=QkeASmB6M58)  
   
 ![サムネイル](ScreenShot/サムネイル.png)
-![3D_プレイヤー視点1](ScreenShot/s1.png)
-![3D_プレイヤー視点2](ScreenShot/s2.png)
-![3D_サイドビュー視点](ScreenShot/s3.png)
-![2D視点](ScreenShot/s4.png)
+![3D_プレイヤー視点1](ScreenShot/ScreenShot_01.png)
+![3D_プレイヤー視点2](ScreenShot/ScreenShot_02.png)
+![3D_サイドビュー視点](ScreenShot/ScreenShot_03.png)
+![2D視点](ScreenShot/ScreenShot_04.png)
