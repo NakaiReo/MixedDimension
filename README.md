@@ -1,4 +1,4 @@
-# MixedDimensions  
+# Mixed Dimensions  
 ## 概要  
 >ジャンル: ローグライク  
 >制作人数: 1人  
@@ -7,7 +7,7 @@
 >>#### 開発環境
 >>エンジン: Unity  
 >>言語: C#  
->>ツール: Paint.net Excel  
+>>ツール: Paint.net  
 >>使用アセット: DoTween, Unity Excel Importer Maker, Easy Performant Outline
 >実行環境:  
 >>OS: Windows 10  
@@ -29,7 +29,7 @@
 「新小田裕二賞」を頂くことが出来ました。
 そして、展示会の方でも学内2位かつクラス内1位の評価を頂くことが出来ました。  
   
-##頑張った点
+## 頑張った点
 - タイトルのUI
 - ポストプロセスとシェーダーを使ったアニメ調の世界観の演出
 - 現在の入力に応じた操作
@@ -40,12 +40,12 @@
 - 様々な視点のカメラの管理
 - 2次元と3次元のカメラの補間処理
 
-##スクリーンショット
+## スクリーンショット
   
 ### [紹介動画 - Youtube](https://www.youtube.com/watch?v=kaU5I6UDMAc)
   
-### [紹介動画 - Youtube](https://www.youtube.com/watch?v=QkeASmB6M58)  
-
+### [プレイ動画 - Youtube](https://www.youtube.com/watch?v=QkeASmB6M58)  
+  
 ![サムネイル](ScreenShot/サムネイル.png)
 ![3D_プレイヤー視点1](ScreenShot/s1.png)
 ![3D_プレイヤー視点2](ScreenShot/s2.png)
