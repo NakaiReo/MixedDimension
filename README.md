@@ -5,7 +5,7 @@
 >担当箇所: リーダー、スクリプト、企画、スケジュール管理  
 >製作期間: 2ヶ月  
 >制作時期: 2年次  
->>#### 開発環境
+>>#### 開発環境Cancel changes
 >>エンジン: Unity  
 >>言語: C#  
 >>ツール: Paint.net  
@@ -21,7 +21,9 @@
 2次元にすれば奥行きがなくなり遠くのオブジェクトでも乗ることが出来る。
 その特徴を生かし、次元を切り替えながらゴールを目指していこう。
   
-### [WebGL版のゲームを実行](https://nakaireo.github.io/WebGL_MixedDimensions/)
+### [WebGL版のゲームを実行](https://nakaireo.github.io/WebGL_MixedDimensions/)  
+  
+### [作品のダウンロード](https://drive.google.com/drive/folders/10qCtv-LyuwGutwErUFJN6fsHPJILUeLh?usp=sharing)  
   
 ## 開発目的  
 学校の行事の一つである展示会等も近かったので、それに向けた制作であると共に、
